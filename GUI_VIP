@@ -3590,7 +3590,7 @@ if Topbar:FindFirstChild('Settings') then
 				end
 			end
 
-			Elements.UIPageLayout:JumpTo(Elements['GumballZ Settings'])
+			Elements.UIPageLayout:JumpTo(Elements['Rayfield Settings'])
 		end)
 	end)
 
