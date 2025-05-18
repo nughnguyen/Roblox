@@ -883,7 +883,7 @@ function NughNguyenLibrary:CreateWindow(Settings)
 	Main.Shadow.Image.ImageTransparency = 1
 	LoadingFrame.Version.TextTransparency = 1
 	LoadingFrame.Title.Text = Settings.LoadingTitle or "NughNguyen Interface Suite"
-	LoadingFrame.Subtitle.Text = Settings.LoadingSubtitle or "by Sirius"
+	LoadingFrame.Subtitle.Text = Settings.LoadingSubtitle or "by Quoc Hung"
 	if Settings.LoadingTitle ~= "NughNguyen Interface Suite" then
 		LoadingFrame.Version.Text = "NughNguyen UI"
 	end
