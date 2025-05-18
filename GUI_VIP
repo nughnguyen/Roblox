@@ -1,10 +1,10 @@
 --[[
 
 NughNguyen Interface Suite
-by Quốc Hưng
+by QuocHung
 
-shlex | Designing + Programming
-iRay  | Programming
+QuocHung | Designing + Programming
+QuocHung  | Programming
 
 ]]
 
@@ -12,17 +12,17 @@ iRay  | Programming
 
 local Release = "Beta 8"
 local NotificationDuration = 6.5
-local NughNguyenFolder = "NughNguyen"
-local ConfigurationFolder = NughNguyenFolder.."/Configurations"
+local RayfieldFolder = "NughNguyen"
+local ConfigurationFolder = RayfieldFolder.."/Configurations"
 local ConfigurationExtension = ".rfld"
 
 
 
-local NughNguyenLibrary = {
+local RayfieldLibrary = {
 	Flags = {},
 	Theme = {
 		Default = {
-			TextFont = "Default", -- Default will use the various font faces used across NughNguyen
+			TextFont = "Default", -- Default will use the various font faces used across Rayfield
 			TextColor = Color3.fromRGB(240, 240, 240),
 
 			Background = Color3.fromRGB(25, 25, 25),
@@ -61,7 +61,7 @@ local NughNguyenLibrary = {
 			PlaceholderColor = Color3.fromRGB(178, 178, 178)
 		},
 		Light = {
-			TextFont = "Gotham", -- Default will use the various font faces used across NughNguyen
+			TextFont = "Gotham", -- Default will use the various font faces used across Rayfield
 			TextColor = Color3.fromRGB(50, 50, 50), -- i need to make all text 240, 240, 240 and base gray on transparency not color to do this
 
 			Background = Color3.fromRGB(255, 255, 255),
@@ -114,32 +114,32 @@ local Players = game:GetService("Players")
 local CoreGui = game:GetService("CoreGui")
 
 -- Interface Management
-local NughNguyen = game:GetObjects("rbxassetid://10804731440")[1]
+local Rayfield = game:GetObjects("rbxassetid://10804731440")[1]
 
-NughNguyen.Enabled = false
+Rayfield.Enabled = false
 
 
 if gethui then
-	NughNguyen.Parent = gethui()
+	Rayfield.Parent = gethui()
 elseif syn.protect_gui then 
-	syn.protect_gui(NughNguyen)
-	NughNguyen.Parent = CoreGui
+	syn.protect_gui(Rayfield)
+	Rayfield.Parent = CoreGui
 elseif CoreGui:FindFirstChild("RobloxGui") then
-	NughNguyen.Parent = CoreGui:FindFirstChild("RobloxGui")
+	Rayfield.Parent = CoreGui:FindFirstChild("RobloxGui")
 else
-	NughNguyen.Parent = CoreGui
+	Rayfield.Parent = CoreGui
 end
 
 if gethui then
 	for _, Interface in ipairs(gethui():GetChildren()) do
-		if Interface.Name == NughNguyen.Name and Interface ~= NughNguyen then
+		if Interface.Name == Rayfield.Name and Interface ~= Rayfield then
 			Interface.Enabled = false
 			Interface.Name = "NughNguyen-Old"
 		end
 	end
 else
 	for _, Interface in ipairs(CoreGui:GetChildren()) do
-		if Interface.Name == NughNguyen.Name and Interface ~= NughNguyen then
+		if Interface.Name == Rayfield.Name and Interface ~= Rayfield then
 			Interface.Enabled = false
 			Interface.Name = "NughNguyen-Old"
 		end
@@ -149,13 +149,13 @@ end
 -- Object Variables
 
 local Camera = workspace.CurrentCamera
-local Main = NughNguyen.Main
+local Main = Rayfield.Main
 local Topbar = Main.Topbar
 local Elements = Main.Elements
 local LoadingFrame = Main.LoadingFrame
 local TabList = Main.TabList
 
-NughNguyen.DisplayOrder = 100
+Rayfield.DisplayOrder = 100
 LoadingFrame.Version.Text = Release
 
 
@@ -167,13 +167,13 @@ local CEnabled = false
 local Minimised = false
 local Hidden = false
 local Debounce = false
-local Notifications = NughNguyen.Notifications
+local Notifications = Rayfield.Notifications
 
-local SelectedTheme = NughNguyenLibrary.Theme.Default
+local SelectedTheme = RayfieldLibrary.Theme.Default
 
 function ChangeTheme(ThemeName)
-	SelectedTheme = NughNguyenLibrary.Theme[ThemeName]
-	for _, obj in ipairs(NughNguyen:GetDescendants()) do
+	SelectedTheme = RayfieldLibrary.Theme[ThemeName]
+	for _, obj in ipairs(Rayfield:GetDescendants()) do
 		if obj.ClassName == "TextLabel" or obj.ClassName == "TextBox" or obj.ClassName == "TextButton" then
 			if SelectedTheme.TextFont ~= "Default" then 
 				obj.TextColor3 = SelectedTheme.TextColor
@@ -182,14 +182,14 @@ function ChangeTheme(ThemeName)
 		end
 	end
 
-	NughNguyen.Main.BackgroundColor3 = SelectedTheme.Background
-	NughNguyen.Main.Topbar.BackgroundColor3 = SelectedTheme.Topbar
-	NughNguyen.Main.Topbar.CornerRepair.BackgroundColor3 = SelectedTheme.Topbar
-	NughNguyen.Main.Shadow.Image.ImageColor3 = SelectedTheme.Shadow
+	Rayfield.Main.BackgroundColor3 = SelectedTheme.Background
+	Rayfield.Main.Topbar.BackgroundColor3 = SelectedTheme.Topbar
+	Rayfield.Main.Topbar.CornerRepair.BackgroundColor3 = SelectedTheme.Topbar
+	Rayfield.Main.Shadow.Image.ImageColor3 = SelectedTheme.Shadow
 
-	NughNguyen.Main.Topbar.ChangeSize.ImageColor3 = SelectedTheme.TextColor
-	NughNguyen.Main.Topbar.Hide.ImageColor3 = SelectedTheme.TextColor
-	NughNguyen.Main.Topbar.Theme.ImageColor3 = SelectedTheme.TextColor
+	Rayfield.Main.Topbar.ChangeSize.ImageColor3 = SelectedTheme.TextColor
+	Rayfield.Main.Topbar.Hide.ImageColor3 = SelectedTheme.TextColor
+	Rayfield.Main.Topbar.Theme.ImageColor3 = SelectedTheme.TextColor
 
 	for _, TabPage in ipairs(Elements:GetChildren()) do
 		for _, Element in ipairs(TabPage:GetChildren()) do
@@ -243,16 +243,16 @@ end
 local function LoadConfiguration(Configuration)
 	local Data = HttpService:JSONDecode(Configuration)
 	for FlagName, FlagValue in next, Data do
-		if NughNguyenLibrary.Flags[FlagName] then
+		if RayfieldLibrary.Flags[FlagName] then
 			spawn(function() 
-				if NughNguyenLibrary.Flags[FlagName].Type == "ColorPicker" then
-					NughNguyenLibrary.Flags[FlagName]:Set(UnpackColor(FlagValue))
+				if RayfieldLibrary.Flags[FlagName].Type == "ColorPicker" then
+					RayfieldLibrary.Flags[FlagName]:Set(UnpackColor(FlagValue))
 				else
-					if NughNguyenLibrary.Flags[FlagName].CurrentValue or NughNguyenLibrary.Flags[FlagName].CurrentKeybind or NughNguyenLibrary.Flags[FlagName].CurrentOption or NughNguyenLibrary.Flags[FlagName].Color ~= FlagValue then NughNguyenLibrary.Flags[FlagName]:Set(FlagValue) end
+					if RayfieldLibrary.Flags[FlagName].CurrentValue or RayfieldLibrary.Flags[FlagName].CurrentKeybind or RayfieldLibrary.Flags[FlagName].CurrentOption or RayfieldLibrary.Flags[FlagName].Color ~= FlagValue then RayfieldLibrary.Flags[FlagName]:Set(FlagValue) end
 				end    
 			end)
 		else
-			NughNguyenLibrary:Notify({Title = "Flag Error", Content = "NughNguyen was unable to find '"..FlagName.. "'' in the current script"})
+			RayfieldLibrary:Notify({Title = "Flag Error", Content = "NughNguyen was unable to find '"..FlagName.. "'' in the current script"})
 		end
 	end
 end
@@ -260,7 +260,7 @@ end
 local function SaveConfiguration()
 	if not CEnabled then return end
 	local Data = {}
-	for i,v in pairs(NughNguyenLibrary.Flags) do
+	for i,v in pairs(RayfieldLibrary.Flags) do
 		if v.Type == "ColorPicker" then
 			Data[i] = PackColor(v.Color)
 		else
@@ -491,7 +491,7 @@ local neon = (function() -- Open sourced neon module
 
 end)()
 
-function NughNguyenLibrary:Notify(NotificationSettings)
+function RayfieldLibrary:Notify(NotificationSettings)
 	spawn(function()
 		local ActionCompleted = true
 		local Notification = Notifications.Template:Clone()
@@ -517,7 +517,7 @@ function NughNguyenLibrary:Notify(NotificationSettings)
 				ActionCompleted = false
 				local NewAction = Notification.Actions.Template:Clone()
 				NewAction.BackgroundColor3 = SelectedTheme.NotificationActionsBackground
-				if SelectedTheme ~= NughNguyenLibrary.Theme.Default then
+				if SelectedTheme ~= RayfieldLibrary.Theme.Default then
 					NewAction.TextColor3 = SelectedTheme.TextColor
 				end
 				NewAction.Name = Action.Name
@@ -580,7 +580,7 @@ function NughNguyenLibrary:Notify(NotificationSettings)
 			end
 		end
 
-		if NughNguyen.Name == "NughNguyen" then
+		if Rayfield.Name == "NughNguyen" then
 			neon:BindFrame(Notification.BlurModule, {
 				Transparency = 0.98;
 				BrickColor = BrickColor.new("Institutional white");
@@ -637,7 +637,7 @@ end
 
 function Hide()
 	Debounce = true
-	NughNguyenLibrary:Notify({Title = "Interface Hidden", Content = "The interface has been hidden, you can unhide the interface by tapping K", Duration = 7})
+	RayfieldLibrary:Notify({Title = "Interface Hidden", Content = "The interface has been hidden, you can unhide the interface by tapping K", Duration = 7})
 	TweenService:Create(Main, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 470, 0, 400)}):Play()
 	TweenService:Create(Main.Topbar, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 470, 0, 45)}):Play()
 	TweenService:Create(Main, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
@@ -872,7 +872,7 @@ function Minimise()
 	Debounce = false
 end
 
-function NughNguyenLibrary:CreateWindow(Settings)
+function RayfieldLibrary:CreateWindow(Settings)
 	local Passthrough = false
 	Topbar.Title.Text = Settings.Name
 	Main.Size = UDim2.new(0, 450, 0, 260)
@@ -883,7 +883,7 @@ function NughNguyenLibrary:CreateWindow(Settings)
 	Main.Shadow.Image.ImageTransparency = 1
 	LoadingFrame.Version.TextTransparency = 1
 	LoadingFrame.Title.Text = Settings.LoadingTitle or "NughNguyen Interface Suite"
-	LoadingFrame.Subtitle.Text = Settings.LoadingSubtitle or "by Quoc Hung"
+	LoadingFrame.Subtitle.Text = Settings.LoadingSubtitle or "by QuocHung"
 	if Settings.LoadingTitle ~= "NughNguyen Interface Suite" then
 		LoadingFrame.Version.Text = "NughNguyen UI"
 	end
@@ -896,7 +896,7 @@ function NughNguyenLibrary:CreateWindow(Settings)
 		if not Settings.ConfigurationSaving.FileName then
 			Settings.ConfigurationSaving.FileName = tostring(game.PlaceId)
 		end
-		if not isfolder(NughNguyenFolder.."/".."Configuration Folders") then
+		if not isfolder(RayfieldFolder.."/".."Configuration Folders") then
 
 		end
 		if Settings.ConfigurationSaving.Enabled == nil then
@@ -926,10 +926,10 @@ function NughNguyenLibrary:CreateWindow(Settings)
 	end
 
 	if Settings.Discord then
-		if not isfolder(NughNguyenFolder.."/Discord Invites") then
-			makefolder(NughNguyenFolder.."/Discord Invites")
+		if not isfolder(RayfieldFolder.."/Discord Invites") then
+			makefolder(RayfieldFolder.."/Discord Invites")
 		end
-		if not isfile(NughNguyenFolder.."/Discord Invites".."/"..Settings.Discord.Invite..ConfigurationExtension) then
+		if not isfile(RayfieldFolder.."/Discord Invites".."/"..Settings.Discord.Invite..ConfigurationExtension) then
 			if request then
 				request({
 					Url = 'http://127.0.0.1:6463/rpc?v=1',
@@ -947,7 +947,7 @@ function NughNguyenLibrary:CreateWindow(Settings)
 			end
 
 			if Settings.Discord.RememberJoins then -- We do logic this way so if the developer changes this setting, the user still won't be prompted, only new users
-				writefile(NughNguyenFolder.."/Discord Invites".."/"..Settings.Discord.Invite..ConfigurationExtension,"NughNguyen RememberJoins is true for this invite, this invite will not ask you to join again")
+				writefile(RayfieldFolder.."/Discord Invites".."/"..Settings.Discord.Invite..ConfigurationExtension,"NughNguyen RememberJoins is true for this invite, this invite will not ask you to join again")
 			end
 		else
 
@@ -960,8 +960,8 @@ function NughNguyenLibrary:CreateWindow(Settings)
 			return
 		end
 
-		if not isfolder(NughNguyenFolder.."/Key System") then
-			makefolder(NughNguyenFolder.."/Key System")
+		if not isfolder(RayfieldFolder.."/Key System") then
+			makefolder(RayfieldFolder.."/Key System")
 		end
 
 		if typeof(Settings.KeySettings.Key) == "string" then Settings.KeySettings.Key = {Settings.KeySettings.Key} end
@@ -982,9 +982,9 @@ function NughNguyenLibrary:CreateWindow(Settings)
 			Settings.KeySettings.FileName = "No file name specified"
 		end
 
-		if isfile(NughNguyenFolder.."/Key System".."/"..Settings.KeySettings.FileName..ConfigurationExtension) then
+		if isfile(RayfieldFolder.."/Key System".."/"..Settings.KeySettings.FileName..ConfigurationExtension) then
 			for _, MKey in ipairs(Settings.KeySettings.Key) do
-				if string.find(readfile(NughNguyenFolder.."/Key System".."/"..Settings.KeySettings.FileName..ConfigurationExtension), MKey) then
+				if string.find(readfile(RayfieldFolder.."/Key System".."/"..Settings.KeySettings.FileName..ConfigurationExtension), MKey) then
 					Passthrough = true
 				end
 			end
@@ -992,13 +992,13 @@ function NughNguyenLibrary:CreateWindow(Settings)
 
 		if not Passthrough then
 			local AttemptsRemaining = math.random(2,6)
-			NughNguyen.Enabled = false
+			Rayfield.Enabled = false
 			local KeyUI = game:GetObjects("rbxassetid://11380036235")[1]
 
 			if gethui then
 				KeyUI.Parent = gethui()
 			elseif syn.protect_gui then
-				syn.protect_gui(NughNguyen)
+				syn.protect_gui(Rayfield)
 				KeyUI.Parent = CoreGui
 			else
 				KeyUI.Parent = CoreGui
@@ -1083,9 +1083,9 @@ function NughNguyenLibrary:CreateWindow(Settings)
 					Passthrough = true
 					if Settings.KeySettings.SaveKey then
 						if writefile then
-							writefile(NughNguyenFolder.."/Key System".."/"..Settings.KeySettings.FileName..ConfigurationExtension, FoundKey)
+							writefile(RayfieldFolder.."/Key System".."/"..Settings.KeySettings.FileName..ConfigurationExtension, FoundKey)
 						end
-						NughNguyenLibrary:Notify({Title = "Key System", Content = "The key for this script has been saved successfully"})
+						RayfieldLibrary:Notify({Title = "Key System", Content = "The key for this script has been saved successfully"})
 					end
 				else
 					if AttemptsRemaining == 0 then
@@ -1131,7 +1131,7 @@ function NughNguyenLibrary:CreateWindow(Settings)
 				TweenService:Create(KeyMain.NoteMessage, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
 				TweenService:Create(KeyMain.Hide, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
 				wait(0.51)
-				NughNguyenLibrary:Destroy()
+				RayfieldLibrary:Destroy()
 				KeyUI:Destroy()
 			end)
 		else
@@ -1144,7 +1144,7 @@ function NughNguyenLibrary:CreateWindow(Settings)
 
 	Notifications.Template.Visible = false
 	Notifications.Visible = true
-	NughNguyen.Enabled = true
+	Rayfield.Enabled = true
 	wait(0.5)
 	TweenService:Create(Main, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
 	TweenService:Create(Main.Shadow.Image, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {ImageTransparency = 0.55}):Play()
@@ -1210,7 +1210,7 @@ function NughNguyenLibrary:CreateWindow(Settings)
 			Elements.UIPageLayout.Animated = true
 		end
 
-		if SelectedTheme ~= NughNguyenLibrary.Theme.Default then
+		if SelectedTheme ~= RayfieldLibrary.Theme.Default then
 			TabButton.Shadow.Visible = false
 		end
 		TabButton.UIStroke.Color = SelectedTheme.TabStroke
@@ -1527,7 +1527,7 @@ function NughNguyenLibrary:CreateWindow(Settings)
 
 			if Settings.ConfigurationSaving then
 				if Settings.ConfigurationSaving.Enabled and ColorPickerSettings.Flag then
-					NughNguyenLibrary.Flags[ColorPickerSettings.Flag] = ColorPickerSettings
+					RayfieldLibrary.Flags[ColorPickerSettings.Flag] = ColorPickerSettings
 				end
 			end
 
@@ -1967,7 +1967,7 @@ function NughNguyenLibrary:CreateWindow(Settings)
 
 			if Settings.ConfigurationSaving then
 				if Settings.ConfigurationSaving.Enabled and DropdownSettings.Flag then
-					NughNguyenLibrary.Flags[DropdownSettings.Flag] = DropdownSettings
+					RayfieldLibrary.Flags[DropdownSettings.Flag] = DropdownSettings
 				end
 			end
 
@@ -2078,7 +2078,7 @@ function NughNguyenLibrary:CreateWindow(Settings)
 			end
 			if Settings.ConfigurationSaving then
 				if Settings.ConfigurationSaving.Enabled and KeybindSettings.Flag then
-					NughNguyenLibrary.Flags[KeybindSettings.Flag] = KeybindSettings
+					RayfieldLibrary.Flags[KeybindSettings.Flag] = KeybindSettings
 				end
 			end
 			return KeybindSettings
@@ -2099,7 +2099,7 @@ function NughNguyenLibrary:CreateWindow(Settings)
 			Toggle.Title.TextTransparency = 1
 			Toggle.Switch.BackgroundColor3 = SelectedTheme.ToggleBackground
 
-			if SelectedTheme ~= NughNguyenLibrary.Theme.Default then
+			if SelectedTheme ~= RayfieldLibrary.Theme.Default then
 				Toggle.Switch.Shadow.Visible = false
 			end
 
@@ -2224,7 +2224,7 @@ function NughNguyenLibrary:CreateWindow(Settings)
 
 			if Settings.ConfigurationSaving then
 				if Settings.ConfigurationSaving.Enabled and ToggleSettings.Flag then
-					NughNguyenLibrary.Flags[ToggleSettings.Flag] = ToggleSettings
+					RayfieldLibrary.Flags[ToggleSettings.Flag] = ToggleSettings
 				end
 			end
 
@@ -2244,7 +2244,7 @@ function NughNguyenLibrary:CreateWindow(Settings)
 			Slider.UIStroke.Transparency = 1
 			Slider.Title.TextTransparency = 1
 
-			if SelectedTheme ~= NughNguyenLibrary.Theme.Default then
+			if SelectedTheme ~= RayfieldLibrary.Theme.Default then
 				Slider.Main.Shadow.Visible = false
 			end
 
@@ -2366,7 +2366,7 @@ function NughNguyenLibrary:CreateWindow(Settings)
 			end
 			if Settings.ConfigurationSaving then
 				if Settings.ConfigurationSaving.Enabled and SliderSettings.Flag then
-					NughNguyenLibrary.Flags[SliderSettings.Flag] = SliderSettings
+					RayfieldLibrary.Flags[SliderSettings.Flag] = SliderSettings
 				end
 			end
 			return SliderSettings
@@ -2414,8 +2414,8 @@ function NughNguyenLibrary:CreateWindow(Settings)
 end
 
 
-function NughNguyenLibrary:Destroy()
-	NughNguyen:Destroy()
+function RayfieldLibrary:Destroy()
+	Rayfield:Destroy()
 end
 
 Topbar.ChangeSize.MouseButton1Click:Connect(function()
@@ -2471,23 +2471,23 @@ for _, TopbarButton in ipairs(Topbar:GetChildren()) do
 end
 
 
-function NughNguyenLibrary:LoadConfiguration()
+function RayfieldLibrary:LoadConfiguration()
 	if CEnabled then
 		pcall(function()
 			if isfile(ConfigurationFolder .. "/" .. CFileName .. ConfigurationExtension) then
 				LoadConfiguration(readfile(ConfigurationFolder .. "/" .. CFileName .. ConfigurationExtension))
-				NughNguyenLibrary:Notify({Title = "Configuration Loaded", Content = "The configuration file for this script has been loaded from a previous session"})
+				RayfieldLibrary:Notify({Title = "Configuration Loaded", Content = "The configuration file for this script has been loaded from a previous session"})
 			end
 		end)
 	end
 end
 
-task.delay(3.5, NughNguyenLibrary.LoadConfiguration, NughNguyenLibrary)
-if NughNguyen:FindFirstChild("Notice") then
-	NughNguyen.Notice.Visible = true
-	NughNguyen.Notice.Interact.MouseButton1Click:Connect(function()
-		NughNguyen.Notice.Visible = false
+task.delay(3.5, RayfieldLibrary.LoadConfiguration, RayfieldLibrary)
+if Rayfield:FindFirstChild("Notice") then
+	Rayfield.Notice.Visible = true
+	Rayfield.Notice.Interact.MouseButton1Click:Connect(function()
+		Rayfield.Notice.Visible = false
 	end)
 end
 
-	return NughNguyenLibrary
+	return RayfieldLibrary
