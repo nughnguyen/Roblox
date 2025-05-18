@@ -645,7 +645,7 @@ NughNguyen.Enabled = false
 if gethui then
 	NughNguyen.Parent = gethui()
 elseif syn and syn.protect_gui then 
-	syn.protect_gui(NughNguyen)
+	syn.protect_gui(Rayfield)
 	NughNguyen.Parent = CoreGui
 elseif not useStudio and CoreGui:FindFirstChild("RobloxGui") then
 	NughNguyen.Parent = CoreGui:FindFirstChild("RobloxGui")
@@ -657,14 +657,14 @@ if gethui then
 	for _, Interface in ipairs(gethui():GetChildren()) do
 		if Interface.Name == NughNguyen.Name and Interface ~= NughNguyen then
 			Interface.Enabled = false
-			Interface.Name = "NughNguyen-Old"
+			Interface.Name = "Rayfield-Old"
 		end
 	end
 elseif not useStudio then
 	for _, Interface in ipairs(CoreGui:GetChildren()) do
 		if Interface.Name == NughNguyen.Name and Interface ~= NughNguyen then
 			Interface.Enabled = false
-			Interface.Name = "NughNguyen-Old"
+			Interface.Name = "Rayfield-Old"
 		end
 	end
 end
