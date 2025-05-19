@@ -1015,7 +1015,7 @@ function NughLibrary:Notify(data) -- action e.g open messages
 
 		if data.Actions then
 			warn('Nugh | Not seeing your actions in notifications?')
-			print("Notification Actions are being sunset for now, keep up to date on when they're back in the discord. (sirius.menu/discord)")
+			print("Notification Actions are being sunset for now, keep up to date on when they're back in the discord. (dsc.gg/thenoicez)")
 		end
 
 		-- Calculate textbounds and set initial values
